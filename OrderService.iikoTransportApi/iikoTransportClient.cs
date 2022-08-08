@@ -17,8 +17,15 @@ namespace OrderService.iikoTransportApi
     public class iikoTransportClient
     {
         private readonly string _url = "https://api-ru.iiko.services/";
+        private readonly TokenStorage _tokenStorage;
 
-        public async Task<AccessTokenResponse> GetAccessToken(string apiLogin)
+        public iikoTransportClient()
+        {
+            _tokenStorage = new TokenStorage();
+        }
+
+        //requests
+        public async Task<AccessTokenResponse> GetAccessTokenAsync(string apiLogin)
         {
             var request = new AccessTokenRequest(apiLogin);
 
@@ -28,8 +35,37 @@ namespace OrderService.iikoTransportApi
             responseMessage.EnsureSuccessStatusCode();
 
             var result = await responseMessage.Content.ReadFromJsonAsync<AccessTokenResponse>();
-            if (responseMessage == null) throw new HttpRequestException(responseMessage.StatusCode.ToString());
+            
             return result;
+        }
+
+        public async Task<OrganizationsResponse> GetOrganizationsAsync(string apiLogin)
+        {
+            var request = new OrganizationsRequest();
+
+            var client = GetAutorizedClient(apiLogin);
+            
+            var responseMessage = await client.PostAsJsonAsync("/api/1/organizations", request);
+
+            var result = await responseMessage.Content.ReadFromJsonAsync<OrganizationsResponse>();
+
+            return result;
+        }
+
+
+        //Client factory
+        public HttpClient GetAutorizedClient(string apiLogin)
+        {
+            HttpClient client = GetClient();
+
+            if (_tokenStorage.Token == null)
+            {
+                _tokenStorage.Token = GetAccessTokenAsync(apiLogin).Result.Token;
+            }
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorage.Token);
+
+            return client;
         }
         
         private HttpClient GetClient()

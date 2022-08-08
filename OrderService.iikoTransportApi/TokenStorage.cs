@@ -11,15 +11,22 @@ namespace OrderService.iikoTransportApi
         private string _token;
         private DateTime _expires;
 
-        public string Token 
+        public TokenStorage()
+        {
+            _expires = DateTime.Now;
+            _token = null;
+        }
+
+        public string ? Token 
         { 
             get
             {
-                return _token;
+                return DateTime.Now < _expires ? _token : null;
             } 
-            private set
+            set
             {
                 _token = value;
+                _expires = DateTime.Now + TimeSpan.FromMinutes(15);
             }
         }
     }
