@@ -10,24 +10,33 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using OrderService.iikoTransportApi.Requests;
 using OrderService.iikoTransportApi.Responses;
+using OrderService.iikoTransportApi.Interfaces;
 
 
 namespace OrderService.iikoTransportApi
 {
-    public class iikoTransportClient
+    public class iikoTransportClient : IiikoTransportClient
     {
         private readonly string _url = "https://api-ru.iiko.services/";
         private readonly TokenStorage _tokenStorage;
 
-        public iikoTransportClient()
+        /// <summary>
+        /// Конструктор класса iikoTransportClient, возвращает клиент iikoTransport
+        /// </summary>
+        /// <param name="apiLogin">Получается на стороне iikoTransport, необходим для получения токена</param>
+        public iikoTransportClient(string apiLogin)
         {
-            _tokenStorage = new TokenStorage();
+            _tokenStorage = new TokenStorage(apiLogin);
         }
 
-        //requests
-        public async Task<AccessTokenResponse> GetAccessTokenAsync(string apiLogin)
+        /// <summary>
+        /// Метод получает токен доступа для взамодействия с api
+        /// </summary>
+        
+        /// <returns>Возвращает AccessTokenResponse, содержащий Token </returns>
+        public async Task<AccessTokenResponse> GetAccessTokenAsync()
         {
-            var request = new AccessTokenRequest(apiLogin);
+            var request = new AccessTokenRequest(_tokenStorage.ApiKey);
 
             var client = GetClient();
 
@@ -39,11 +48,15 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
-        public async Task<OrganizationsResponse> GetOrganizationsAsync(string apiLogin)
+        /// <summary>
+        /// Метод получает список организаций, доступных по данному apiLogin
+        /// </summary>
+        /// <returns>Возвращает OrganizationsResponse, содержащий List<Organization> </returns>
+        public async Task<OrganizationsResponse> GetOrganizationsAsync()
         {
             var request = new OrganizationsRequest();
 
-            var client = GetAutorizedClient(apiLogin);
+            var client = GetAutorizedClient();
             
             var responseMessage = await client.PostAsJsonAsync("/api/1/organizations", request);
 
@@ -52,18 +65,23 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
+        //public async Task<TerminalGroupsResponse> GetTerminalGroupsAsync()
+        //{
 
-        //Client factory
-        public HttpClient GetAutorizedClient(string apiLogin)
+        //}
+
+
+        /// <summary>
+        /// Получает экземпляр HttpClient, настроенный и авторизованный для работы с iikoTransport API
+        /// </summary>
+        /// <returns>HttpClient с парамерами авторизации и uri сервера iikoTransport</returns>
+        public HttpClient GetAutorizedClient()
         {
             HttpClient client = GetClient();
 
-            if (_tokenStorage.Token == null)
-            {
-                _tokenStorage.Token = GetAccessTokenAsync(apiLogin).Result.Token;
-            }
+            var token = _tokenStorage.GetToken(this);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorage.Token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result);
 
             return client;
         }

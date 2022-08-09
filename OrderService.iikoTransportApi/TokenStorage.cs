@@ -10,24 +10,28 @@ namespace OrderService.iikoTransportApi
     {
         private string _token;
         private DateTime _expires;
+        private string _apiKey;
 
-        public TokenStorage()
+        public TokenStorage(string apiLogin)
         {
             _expires = DateTime.Now;
             _token = null;
+            _apiKey = apiLogin;
         }
 
-        public string ? Token 
-        { 
-            get
+        public string Token { get { return _token; } }
+
+        public string ApiKey { get { return _apiKey; } }
+
+        public async Task<string> GetToken(iikoTransportClient client)
+        {
+            if (_token == null || DateTime.Now >= _expires)
             {
-                return DateTime.Now < _expires ? _token : null;
-            } 
-            set
-            {
-                _token = value;
-                _expires = DateTime.Now + TimeSpan.FromMinutes(15);
+                var token = await client.GetAccessTokenAsync();
+                _token = token.Token;
             }
+
+            return _token;
         }
     }
 }

@@ -18,9 +18,9 @@ namespace OrderService.iikoTransportApi.Tests
         public void GetAccessTokenTest_InputValidApiLogin_ReturnToken()
         {
             // Arrange
-            iikoTransportClient client = new iikoTransportClient();
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
             // Act
-            var result = client.GetAccessTokenAsync("962107c6-21d");
+            var result = client.GetAccessTokenAsync();
             // Assert
             _testOutput.WriteLine(result.Result.Token);
             Assert.NotNull(result.Result.Token);
@@ -30,12 +30,12 @@ namespace OrderService.iikoTransportApi.Tests
         public void GetAccessTokenTest_InputInvalidApiLogin_ThrowException()
         {
             // Arrange
-            iikoTransportClient client = new iikoTransportClient();
+            iikoTransportClient client = new iikoTransportClient("962107c6-25d");
             // Act
             Assert.ThrowsAny<System.AggregateException>(() =>
             {
                 //invalid apiLogin
-                var result = client.GetAccessTokenAsync("962107c6-25d");
+                var result = client.GetAccessTokenAsync();
                 _testOutput.WriteLine(result.Result.ToString());
 
             });
@@ -45,10 +45,10 @@ namespace OrderService.iikoTransportApi.Tests
         public void GetAutorizedClient_InputToken_ReturnClinet()
         {
             // Arrange
-            iikoTransportClient client = new iikoTransportClient();
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
 
             // Act
-            var result = client.GetAutorizedClient("962107c6-21d");
+            var result = client.GetAutorizedClient();
             // Assert
             _testOutput.WriteLine(result.DefaultRequestHeaders.ToString());
             Assert.NotNull(result);
@@ -59,9 +59,9 @@ namespace OrderService.iikoTransportApi.Tests
         public void GetOrganizationsTest_InputNull_ReturnOrganizationList()
         {
             // Arrange
-            iikoTransportClient client = new iikoTransportClient();
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
             // Act
-            var org = client.GetOrganizationsAsync("962107c6-21d");
+            var org = client.GetOrganizationsAsync();
             // Assert
             foreach(var item in org.Result.Organizations)
             {
