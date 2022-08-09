@@ -1,5 +1,7 @@
 ﻿using OrderService.iikoTransportApi;
 using System.Net.Http;
+using System.Collections.Generic;
+using System;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -32,13 +34,16 @@ namespace OrderService.iikoTransportApi.Tests
             // Arrange
             iikoTransportClient client = new iikoTransportClient("962107c6-25d");
             // Act
-            Assert.ThrowsAny<System.AggregateException>(() =>
+            
+            var ex = Assert.ThrowsAny<System.AggregateException>(() =>
             {
                 //invalid apiLogin
                 var result = client.GetAccessTokenAsync();
-                _testOutput.WriteLine(result.Result.ToString());
+                result.Result.ToString();
 
             });
+           
+            _testOutput.WriteLine(ex.Message);
         }
 
         [Fact]
@@ -72,6 +77,35 @@ namespace OrderService.iikoTransportApi.Tests
             Assert.NotNull(org.Result.Organizations);
         }
 
+        [Fact]
+        public void GetTerminalGroupsAsync_InputOrgIds_ReturnTerminalGroups()
+        {
+            // Arrange
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+            // Act
+            var org = client.GetOrganizationsAsync().Result;
 
+            List<Guid> orgIds = new List<Guid>();
+
+            foreach (var item in org.Organizations)
+                orgIds.Add(Guid.Parse(item.Id));
+
+            var response = client.GetTerminalGroupsAsync(orgIds).Result;
+            // Assert
+            foreach(var orgWTerminals in response.TerminalGroups)
+            {
+                _testOutput.WriteLine("Organization Id: " + orgWTerminals.OrganizationId);
+
+                foreach(var terminal in orgWTerminals.Items)
+                {
+                    Assert.NotNull(terminal.Id);
+                    _testOutput.WriteLine("Key: " + terminal.Id);
+                    _testOutput.WriteLine("Name: " + terminal.Name);
+                    _testOutput.WriteLine("Organization Id: " + terminal.OrganizationId);
+                    _testOutput.WriteLine("Address: " + terminal.Address + "\n");
+                }
+            }
+
+        }
     }
 }

@@ -65,10 +65,19 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
-        //public async Task<TerminalGroupsResponse> GetTerminalGroupsAsync()
-        //{
+        public async Task<TerminalGroupsResponse> GetTerminalGroupsAsync(List<Guid> organizationIds)
+        {
+            var request = new TerminalGroupsRequest(organizationIds);
 
-        //}
+            var client = GetAutorizedClient();
+
+            var responseMessage = await client.PostAsJsonAsync("/api/1/terminal_groups", request);
+
+            var result = await responseMessage.Content.ReadFromJsonAsync<TerminalGroupsResponse>();
+
+            return result;
+
+        }
 
 
         /// <summary>
