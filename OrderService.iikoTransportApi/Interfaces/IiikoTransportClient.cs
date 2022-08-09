@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.iikoTransportApi
+namespace OrderService.iikoTransportApi.Interfaces
 {
     public interface IiikoTransportClient
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OrderService.iikoTransportApi.Models;
 
 
-namespace OrderService.iikoTransportApi.Responses
+namespace OrderService.iikoTransportApi.Models
 {
     public  class OrganizationWithTerminalGroups
     {
