@@ -16,7 +16,7 @@ namespace OrderService.iikoTransportApi.Responses
         public List<ProductCategories> ProductCategories { get; set; }
         public List<Product> Products { get; set; }
         public List<Size> Sizes { get; set; }
-        public int Revision { get; set; }
+        public long Revision { get; set; }
 
     }
 }

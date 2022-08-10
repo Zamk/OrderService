@@ -98,7 +98,7 @@ namespace OrderService.iikoTransportApi.Tests
 
                 foreach(var terminal in orgWTerminals.Items)
                 {
-                    Assert.NotNull(terminal.Id);
+                    Assert.NotEqual(Guid.Empty, terminal.Id);
                     _testOutput.WriteLine("Key: " + terminal.Id);
                     _testOutput.WriteLine("Name: " + terminal.Name);
                     _testOutput.WriteLine("Organization Id: " + terminal.OrganizationId);
@@ -118,13 +118,39 @@ namespace OrderService.iikoTransportApi.Tests
 
             Guid orgId = Guid.Parse( org.Organizations[0].Id );
 
-            
-
             var response = client.GetNomenclatureAsync(orgId).Result;
+
             // Assert
+            _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
+
+            _testOutput.WriteLine("Groups:\n  Groups.Count: " + response.Groups.Count);
+            foreach (var group in response.Groups)
+            {
+                _testOutput.WriteLine("  " + group?.Name);
+
+            }
+
+            _testOutput.WriteLine("ProductCategories:\n  ProductCategories.Count: " + response.ProductCategories.Count);
+
+            foreach (var category in response.ProductCategories)
+            {
+                _testOutput.WriteLine("  " + category?.Name);
+
+            }
+
+            _testOutput.WriteLine("Products:\n  Products.Count: " + response.Products.Count);
+
             foreach (var product in response.Products)
             {
-                _testOutput.WriteLine("Product name: " + product.Name);
+                _testOutput.WriteLine("  " + product?.Name);
+
+            }
+
+            _testOutput.WriteLine("Sizes:\n  Sizes.Count: " + response.Sizes.Count);
+
+            foreach (var size in response.Sizes)
+            {
+                _testOutput.WriteLine("  " + size?.Name);
 
             }
 

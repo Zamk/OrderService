@@ -82,13 +82,10 @@ namespace OrderService.iikoTransportApi
         public async Task<NomenclatureResponse> GetNomenclatureAsync(Guid organizationId)
         {
             var client = GetAutorizedClient();
-
-            //var response = await GetOrganizationsAsync();
-            //Guid organizationId; // = Guid.Parse(response.Organizations.First().Id);
             
             var request = new NomenclatureRequest(organizationId);
 
-            var responseMessage = await client.PostAsJsonAsync("/api/1/terminal_groups", request);
+            var responseMessage = await client.PostAsJsonAsync("/api/1/nomenclature", request);
 
             var result = await responseMessage.Content.ReadFromJsonAsync<NomenclatureResponse>();
 
