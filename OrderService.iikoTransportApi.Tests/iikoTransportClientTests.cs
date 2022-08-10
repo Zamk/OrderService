@@ -107,5 +107,27 @@ namespace OrderService.iikoTransportApi.Tests
             }
 
         }
+
+        [Fact]
+        public void GetNomeclatureAsync_InputOrgId_ReturnNomeclatureGroups()
+        {
+            // Arrange
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+            // Act
+            var org = client.GetOrganizationsAsync().Result;
+
+            Guid orgId = Guid.Parse( org.Organizations[0].Id );
+
+            
+
+            var response = client.GetNomenclatureAsync(orgId).Result;
+            // Assert
+            foreach (var product in response.Products)
+            {
+                _testOutput.WriteLine("Product name: " + product.Name);
+
+            }
+
+        }
     }
 }

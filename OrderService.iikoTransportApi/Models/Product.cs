@@ -27,6 +27,7 @@ namespace OrderService.iikoTransportApi.Models
         public string MeasureUnit { get; set; }
         //"sizePrices": [],
         //"modifiers": [],
+        public List<Modifier> Modifiers { get; set; }
         //"groupModifiers": [],
         public List<string> ImageLinks { get; set; }
         public bool DoNotPrintInCheque { get; set; }
