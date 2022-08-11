@@ -142,7 +142,7 @@ namespace OrderService.iikoTransportApi.Tests
 
             foreach (var product in response.Products)
             {
-                _testOutput.WriteLine("  " + product?.Name);
+                _testOutput.WriteLine("  " + product?.Name + ", type: " + product?.Type);
 
             }
 
