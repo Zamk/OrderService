@@ -155,5 +155,28 @@ namespace OrderService.iikoTransportApi.Tests
             }
 
         }
+
+        [Fact]
+        public void CreateDeliveryAsync_Input_ReturnOrderInfo()
+        {
+            // Arrange
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+            // Act
+            var org = client.GetOrganizationsAsync().Result;
+
+            Guid orgId = Guid.Parse(org.Organizations[0].Id);
+
+            var response = client.GetNomenclatureAsync(orgId).Result;
+
+            // Assert
+            _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
+
+            _testOutput.WriteLine("Groups:\n  Groups.Count: " + response.Groups.Count);
+            foreach (var group in response.Groups)
+            {
+                _testOutput.WriteLine("  " + group?.Name);
+
+            }
+        }
     }
 }

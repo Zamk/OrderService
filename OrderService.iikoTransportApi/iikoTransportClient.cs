@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using OrderService.iikoTransportApi.Requests;
 using OrderService.iikoTransportApi.Responses;
 using OrderService.iikoTransportApi.Interfaces;
+using OrderService.iikoTransportApi.Models;
 
 
 namespace OrderService.iikoTransportApi
@@ -88,6 +89,19 @@ namespace OrderService.iikoTransportApi
             var responseMessage = await client.PostAsJsonAsync("/api/1/nomenclature", request);
 
             var result = await responseMessage.Content.ReadFromJsonAsync<NomenclatureResponse>();
+
+            return result;
+        }
+
+        public async Task<CreateDeliveryOrderResponse> CreateDeliveryAsync(Guid organizationId, Guid terminalGroupId, CreateDeliveryOrder order)
+        {
+            var client = GetAutorizedClient();
+
+            var request = new CreateDeliveryOrderRequest(organizationId, terminalGroupId, order);
+
+            var responseMessage = await client.PostAsJsonAsync("/api/1/nomenclature", request);
+
+            var result = await responseMessage.Content.ReadFromJsonAsync<CreateDeliveryOrderResponse>();
 
             return result;
         }
