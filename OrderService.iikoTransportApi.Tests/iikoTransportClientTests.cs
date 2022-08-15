@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using Xunit;
 using Xunit.Abstractions;
+using OrderService.iikoTransportApi.Models;
 
 namespace OrderService.iikoTransportApi.Tests
 {
@@ -161,22 +162,62 @@ namespace OrderService.iikoTransportApi.Tests
         {
             // Arrange
             iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+
+            Guid orgId = Guid.Parse("6c237432-a50c-49a1-8309-bd926ba2d55f");
+            Guid terminalGroupId = Guid.Parse("3e8c1d46-33b1-f9b1-0179-13c5647c00ce");
+
+            Customer customer = new Customer();
+            customer.Gender = "Male";
+            customer.Name = "Test";
+            customer.Surname = "OrderService";
+            customer.Comment = "Test customer";
+            
+            CreateDeliveryOrder order = new CreateDeliveryOrder();
+            order.Customer = customer;
+            order.Comment = "Test order";
+            order.Phone = "+79999999999";
+            order.OrderServiceType = "DeliveryByClient";
+
+            List<OrderedProduct> items = new List<OrderedProduct>();
+            
+            items.Add(new OrderedProduct()
+            {
+                Type = "Product",
+                Amount = 1,
+                Comment = "test",
+                ProductId = Guid.Parse("512e1749-83c2-44a8-955c-f621984e1e6d")
+                
+            });
+
+            order.Items = items;
+
             // Act
-            var org = client.GetOrganizationsAsync().Result;
 
-            Guid orgId = Guid.Parse(org.Organizations[0].Id);
-
-            var response = client.GetNomenclatureAsync(orgId).Result;
+            var response = client.CreateDeliveryAsync(orgId, terminalGroupId, order).Result;
 
             // Assert
-            _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
+            Assert.NotEqual(Guid.Empty, response.OrderInfo.Id);
+            _testOutput.WriteLine("order: " + order.Customer.Name);
+            _testOutput.WriteLine("order: " + order.Customer.Surname);
+            _testOutput.WriteLine("order: " + order.Customer.Comment);
+            _testOutput.WriteLine("Itmes: " + order.Items.Count);
 
-            _testOutput.WriteLine("Groups:\n  Groups.Count: " + response.Groups.Count);
-            foreach (var group in response.Groups)
+            foreach (var item in order.Items)
             {
-                _testOutput.WriteLine("  " + group?.Name);
+                _testOutput.WriteLine("itme: " + item.ProductId);
+                _testOutput.WriteLine("itme: " + item.Comment);
+                _testOutput.WriteLine("itme: " + item.Type);
+                _testOutput.WriteLine("itme: " + item.Amount);
 
             }
+
+            _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
+            _testOutput.WriteLine("Order Id: " + response?.OrderInfo?.Id);
+            _testOutput.WriteLine("Order CreationStatus: " + response?.OrderInfo?.CreationStatus);
+            _testOutput.WriteLine("Order ErrorDescription: " + response?.ErrorDescription);
+            _testOutput.WriteLine("Order Error: " + response?.Error);
         }
+
+        //todo: Test for GetDeliveryOrderInfo
     }
 }

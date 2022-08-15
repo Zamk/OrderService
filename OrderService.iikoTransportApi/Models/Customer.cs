@@ -8,11 +8,11 @@ namespace OrderService.iikoTransportApi.Models
 {
     public class Customer
     {
-        string Name { get; set; }
-        string Surname { get; set; }
-        string Comment { get; set; }
-        string Birthdate { get; set; }
-        string Email { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Comment { get; set; }
+        public string Birthdate { get; set; }
+        public string Email { get; set; }
 
         //todo: ENUM Gender
         public string Gender { get; set; }

@@ -99,13 +99,27 @@ namespace OrderService.iikoTransportApi
 
             var request = new CreateDeliveryOrderRequest(organizationId, terminalGroupId, order);
 
-            var responseMessage = await client.PostAsJsonAsync("/api/1/nomenclature", request);
+            var responseMessage = await client.PostAsJsonAsync("/api/1/deliveries/create", request);
+            responseMessage.EnsureSuccessStatusCode();
 
             var result = await responseMessage.Content.ReadFromJsonAsync<CreateDeliveryOrderResponse>();
-
+            
             return result;
         }
 
+        public async Task<GetDeliveryOrderInfoResponse> GetDeliveryOrderInfo(List<Guid> orderIds)
+        {
+            var client = GetAutorizedClient();
+
+            var request = new GetDeliveryOrderInfoRequest(orderIds);
+
+            var responseMessage = await client.PostAsJsonAsync("/api/1/deliveries/by_id", request);
+            responseMessage.EnsureSuccessStatusCode();
+
+            var result = await responseMessage.Content.ReadFromJsonAsync<GetDeliveryOrderInfoResponse>();
+
+            return result;
+        }
 
         /// <summary>
         /// Получает экземпляр HttpClient, настроенный и авторизованный для работы с iikoTransport API
