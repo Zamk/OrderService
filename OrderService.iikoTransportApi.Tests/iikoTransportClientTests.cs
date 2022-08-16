@@ -256,6 +256,7 @@ namespace OrderService.iikoTransportApi.Tests
                 // Assert
                 _testOutput.WriteLine(result.DefaultRequestHeaders.ToString());
                 Assert.NotNull(result);
+                Assert.NotNull(result.DefaultRequestHeaders);
 
                 Thread.Sleep(10000);
             }
