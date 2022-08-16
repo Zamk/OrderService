@@ -33,7 +33,6 @@ namespace OrderService.iikoTransportApi
         /// <summary>
         /// Метод получает токен доступа для взамодействия с api
         /// </summary>
-        
         /// <returns>Возвращает AccessTokenResponse, содержащий Token </returns>
         public async Task<AccessTokenResponse> GetAccessTokenAsync()
         {
@@ -66,6 +65,10 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
+        /// <summary>
+        /// Метод получает список терминальных групп по id организации для списка организаций
+        /// </summary>
+        /// <returns>Возвращает TerminalGroupsResponse, содержащий List<OrganizationWithTerminalGroups> </returns>
         public async Task<TerminalGroupsResponse> GetTerminalGroupsAsync(List<Guid> organizationIds)
         {
             var request = new TerminalGroupsRequest(organizationIds);
@@ -79,7 +82,12 @@ namespace OrderService.iikoTransportApi
             return result;
 
         }
-
+        
+        /// <summary>
+        /// Получает список номенклатуры внешнего меню, категорий, групп и размеров для заданной организации.
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
         public async Task<NomenclatureResponse> GetNomenclatureAsync(Guid organizationId)
         {
             var client = GetAutorizedClient();
@@ -93,6 +101,13 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
+        /// <summary>
+        /// Метод для отправки заказа доставки на терминальную грппу
+        /// </summary>
+        /// <param name="organizationId">Id организации, для которой создается доставка</param>
+        /// <param name="terminalGroupId">Id терминальной группы, для которой создается доставка</param>
+        /// <param name="order">Сущность заказа на доставку</param>
+        /// <returns></returns>
         public async Task<CreateDeliveryOrderResponse> CreateDeliveryAsync(Guid organizationId, Guid terminalGroupId, CreateDeliveryOrder order)
         {
             var client = GetAutorizedClient();
@@ -107,6 +122,12 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
+        /// <summary>
+        /// Метод получает информацию о заказах доставки по Id организации и списку Id заказовв
+        /// </summary>
+        /// <param name="organizationId">Id организации, для которой получаем информацию о доставках</param>
+        /// <param name="orderIds">Список Id закаов, по которым получаем информацию о доставках </param>
+        /// <returns></returns>
         public async Task<GetDeliveryOrderInfoResponse> GetDeliveryOrderInfo(Guid organizationId, List<Guid> orderIds)
         {
             var client = GetAutorizedClient();
