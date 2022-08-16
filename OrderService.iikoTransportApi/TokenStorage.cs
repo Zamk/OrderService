@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderService.iikoTransportApi
+﻿namespace OrderService.iikoTransportApi
 {
     public class TokenStorage
     {
@@ -14,7 +8,7 @@ namespace OrderService.iikoTransportApi
 
         public TokenStorage(string apiLogin)
         {
-            _expires = DateTime.Now + TimeSpan.FromSeconds(35);
+            _expires = DateTime.Now + TimeSpan.FromMinutes(20);
             _token = null;
             _apiKey = apiLogin;
         }
@@ -29,7 +23,7 @@ namespace OrderService.iikoTransportApi
             {
                 var token = await client.GetAccessTokenAsync();
                 _token = token.Token;
-                _expires = DateTime.Now + TimeSpan.FromSeconds(35);
+                _expires = DateTime.Now + TimeSpan.FromMinutes(20);
             }
 
             return _token;

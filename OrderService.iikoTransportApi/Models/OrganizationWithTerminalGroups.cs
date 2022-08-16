@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrderService.iikoTransportApi.Models;
-
-
-namespace OrderService.iikoTransportApi.Models
+﻿namespace OrderService.iikoTransportApi.Models
 {
     public  class OrganizationWithTerminalGroups
     {

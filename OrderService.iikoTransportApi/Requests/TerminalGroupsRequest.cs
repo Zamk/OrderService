@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrderService.iikoTransportApi.Interfaces;
-using OrderService.iikoTransportApi.Models;
+﻿using OrderService.iikoTransportApi.Interfaces;
 
 
 namespace OrderService.iikoTransportApi.Requests
