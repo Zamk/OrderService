@@ -110,7 +110,7 @@ namespace OrderService.iikoTransportApi.Tests
         }
 
         [Fact]
-        public void GetNomeclatureAsync_InputOrgId_ReturnNomeclatureGroups()
+        public void GetNomeclatureAsync_InputOrgId_ReturnNomeclature()
         {
             // Arrange
             iikoTransportClient client = new iikoTransportClient("962107c6-21d");
@@ -123,10 +123,12 @@ namespace OrderService.iikoTransportApi.Tests
 
             // Assert
             _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
+            Assert.NotEqual(Guid.Empty, response.CorrelationId);
 
             _testOutput.WriteLine("Groups:\n  Groups.Count: " + response.Groups.Count);
             foreach (var group in response.Groups)
             {
+                Assert.NotEqual(Guid.Empty, group.Id);
                 _testOutput.WriteLine("  " + group?.Name);
 
             }
@@ -135,6 +137,7 @@ namespace OrderService.iikoTransportApi.Tests
 
             foreach (var category in response.ProductCategories)
             {
+                Assert.NotEqual(Guid.Empty, category.Id);
                 _testOutput.WriteLine("  " + category?.Name);
 
             }
@@ -143,14 +146,16 @@ namespace OrderService.iikoTransportApi.Tests
 
             foreach (var product in response.Products)
             {
+                Assert.NotEqual(Guid.Empty, product.Id);
                 _testOutput.WriteLine("  " + product?.Name + ", type: " + product?.Type);
-
+                
             }
 
             _testOutput.WriteLine("Sizes:\n  Sizes.Count: " + response.Sizes.Count);
 
             foreach (var size in response.Sizes)
             {
+                Assert.NotEqual(Guid.Empty, size.Id);
                 _testOutput.WriteLine("  " + size?.Name);
 
             }
@@ -158,7 +163,7 @@ namespace OrderService.iikoTransportApi.Tests
         }
 
         [Fact]
-        public void CreateDeliveryAsync_Input_ReturnOrderInfo()
+        public void CreateDeliveryAsync_InputTestOrder_ReturnOrderInfo()
         {
             // Arrange
             iikoTransportClient client = new iikoTransportClient("962107c6-21d");
@@ -168,8 +173,8 @@ namespace OrderService.iikoTransportApi.Tests
 
             Customer customer = new Customer();
             customer.Gender = "Male";
-            customer.Name = "Test";
-            customer.Surname = "OrderService";
+            customer.Name = "OrderService";
+            //customer.Surname = "";
             customer.Comment = "Test customer";
             
             CreateDeliveryOrder order = new CreateDeliveryOrder();
@@ -192,24 +197,11 @@ namespace OrderService.iikoTransportApi.Tests
             order.Items = items;
 
             // Act
-
             var response = client.CreateDeliveryAsync(orgId, terminalGroupId, order).Result;
 
             // Assert
+            Assert.NotNull(response);
             Assert.NotEqual(Guid.Empty, response.OrderInfo.Id);
-            _testOutput.WriteLine("order: " + order.Customer.Name);
-            _testOutput.WriteLine("order: " + order.Customer.Surname);
-            _testOutput.WriteLine("order: " + order.Customer.Comment);
-            _testOutput.WriteLine("Itmes: " + order.Items.Count);
-
-            foreach (var item in order.Items)
-            {
-                _testOutput.WriteLine("itme: " + item.ProductId);
-                _testOutput.WriteLine("itme: " + item.Comment);
-                _testOutput.WriteLine("itme: " + item.Type);
-                _testOutput.WriteLine("itme: " + item.Amount);
-
-            }
 
             _testOutput.WriteLine("CorellationId: " + response.CorrelationId);
             _testOutput.WriteLine("Order Id: " + response?.OrderInfo?.Id);
@@ -219,5 +211,6 @@ namespace OrderService.iikoTransportApi.Tests
         }
 
         //todo: Test for GetDeliveryOrderInfo
+        
     }
 }
