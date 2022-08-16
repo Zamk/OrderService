@@ -14,7 +14,7 @@ namespace OrderService.iikoTransportApi
 
         public TokenStorage(string apiLogin)
         {
-            _expires = DateTime.Now;
+            _expires = DateTime.Now + TimeSpan.FromSeconds(35);
             _token = null;
             _apiKey = apiLogin;
         }
@@ -29,6 +29,7 @@ namespace OrderService.iikoTransportApi
             {
                 var token = await client.GetAccessTokenAsync();
                 _token = token.Token;
+                _expires = DateTime.Now + TimeSpan.FromSeconds(35);
             }
 
             return _token;

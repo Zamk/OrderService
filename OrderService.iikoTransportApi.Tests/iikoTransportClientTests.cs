@@ -1,5 +1,6 @@
 ﻿using OrderService.iikoTransportApi;
 using System.Net.Http;
+using System.Threading;
 using System.Collections.Generic;
 using System;
 using Xunit;
@@ -238,6 +239,28 @@ namespace OrderService.iikoTransportApi.Tests
                 _testOutput.WriteLine("Order CreationStatus: " + order.CreationStatus);
                 _testOutput.WriteLine("Order ErrorInfo: " + order.ErrorInfo);
             }
+        }
+
+        [Fact]
+        public void TokenStorage_TokenRenew_Test()
+        {
+            // Arrang
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+
+            // Act
+
+            for(int i = 0; i < 15; i++)
+            {
+                // Act
+                var result = client.GetAutorizedClient();
+                // Assert
+                _testOutput.WriteLine(result.DefaultRequestHeaders.ToString());
+                Assert.NotNull(result);
+
+                Thread.Sleep(10000);
+            }
+
+            // Assert
         }
     }
 }
