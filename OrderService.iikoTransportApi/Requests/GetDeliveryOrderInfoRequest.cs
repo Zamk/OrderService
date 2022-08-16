@@ -13,8 +13,9 @@ namespace OrderService.iikoTransportApi.Requests
         public List<Guid> ? OrderIds { get; set; }
         public List<string> ? SourceKeys { get; set; }
 
-        public GetDeliveryOrderInfoRequest(List<Guid> orderIds)
+        public GetDeliveryOrderInfoRequest(Guid organizationId, List<Guid> orderIds)
         {
+            OrganizationId = organizationId;
             OrderIds = orderIds;
         }
 

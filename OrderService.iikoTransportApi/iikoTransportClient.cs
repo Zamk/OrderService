@@ -107,11 +107,11 @@ namespace OrderService.iikoTransportApi
             return result;
         }
 
-        public async Task<GetDeliveryOrderInfoResponse> GetDeliveryOrderInfo(List<Guid> orderIds)
+        public async Task<GetDeliveryOrderInfoResponse> GetDeliveryOrderInfo(Guid organizationId, List<Guid> orderIds)
         {
             var client = GetAutorizedClient();
 
-            var request = new GetDeliveryOrderInfoRequest(orderIds);
+            var request = new GetDeliveryOrderInfoRequest(organizationId, orderIds);
 
             var responseMessage = await client.PostAsJsonAsync("/api/1/deliveries/by_id", request);
             responseMessage.EnsureSuccessStatusCode();

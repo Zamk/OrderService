@@ -210,7 +210,34 @@ namespace OrderService.iikoTransportApi.Tests
             _testOutput.WriteLine("Order Error: " + response?.Error);
         }
 
-        //todo: Test for GetDeliveryOrderInfo
-        
+        // todo: Test for GetDeliveryOrderInfo
+        [Fact]
+        public void GetDeliveryOrderInfo_InputDekiveryOrderId_ReturnDeliveryOrderInfo()
+        {
+            // Arrange
+            iikoTransportClient client = new iikoTransportClient("962107c6-21d");
+
+            Guid orderId = Guid.Parse("bde24862-577a-41c8-8eb8-dd1fc837ebde");
+            Guid organizationId = Guid.Parse("6c237432-a50c-49a1-8309-bd926ba2d55f");
+
+            List<Guid> orderIds = new List<Guid> { orderId };
+
+            // Act
+            var response = client.GetDeliveryOrderInfo(organizationId, orderIds).Result;
+
+            // Assert
+            Assert.NotNull(response);
+
+            _testOutput.WriteLine("Orders.Count: " + response.Orders.Count.ToString());
+            
+            foreach(var order in response.Orders)
+            {
+                Assert.NotNull(order);
+                _testOutput.WriteLine("Order Id: " + order.Id);
+                _testOutput.WriteLine("Order ExternalNumber: " + order.ExternalNumber);
+                _testOutput.WriteLine("Order CreationStatus: " + order.CreationStatus);
+                _testOutput.WriteLine("Order ErrorInfo: " + order.ErrorInfo);
+            }
+        }
     }
 }
