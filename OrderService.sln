@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.iikoTransportA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.iikoTransportApi.Tests", "OrderService.iikoTransportApi.Tests\OrderService.iikoTransportApi.Tests.csproj", "{212E9DBD-5990-4CDF-B603-07716892BB6B}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "OrderService.Frontend", "OrderService.Frontend\OrderService.Frontend.esproj", "{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{212E9DBD-5990-4CDF-B603-07716892BB6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{212E9DBD-5990-4CDF-B603-07716892BB6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{212E9DBD-5990-4CDF-B603-07716892BB6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
