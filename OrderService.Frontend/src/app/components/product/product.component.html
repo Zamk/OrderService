@@ -1,7 +1,7 @@
 <div class="py-1 px-1 border rounded-lg flex flex-col mb-2 shadow-lg" style="background-color: #f9f9f9">
-    <img class="rounded-lg shadow-md max-h-64" [src]="product.image" [alt]="product.description">
+    <img label="img" class="rounded-lg shadow-md max-h-64" [src]="product.image" [alt]="product.description">
     <span class="text-base font-normal pt-1">{{product.price}} р.</span>
-    <h2 class="text-lg font-medium" >{{product.title}}</h2>
+    <h2 class="text-lg font-medium" >{{product.title.substring(0, 30)}}</h2>
     <span class="text-sm font-normal py-1">{{product.weight}} г.</span>
-    <button class="bg-white border border-white rounded-lg shadow-md my-1">Добавить</button>
+    <button label="button"  class="bg-white border border-white rounded-lg shadow-md my-1">Добавить</button>
 </div>
