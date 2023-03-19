@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.iikoTransportA
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "OrderService.Frontend", "OrderService.Frontend\OrderService.Frontend.esproj", "{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Telegram.Bot", "OrderService.Telegram.Bot\OrderService.Telegram.Bot.csproj", "{1E824D86-A35C-418A-9642-F89C12E3FA31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Telegram.Bot.Runner", "OrderService.Telegram.Bot.Runner\OrderService.Telegram.Bot.Runner.csproj", "{009A8B03-3C1A-4B19-BF24-3FC34448BB76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E7D5C19-1D7A-4AAD-9AE4-BCE39A2C3B4E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1E824D86-A35C-418A-9642-F89C12E3FA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E824D86-A35C-418A-9642-F89C12E3FA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E824D86-A35C-418A-9642-F89C12E3FA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E824D86-A35C-418A-9642-F89C12E3FA31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{009A8B03-3C1A-4B19-BF24-3FC34448BB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009A8B03-3C1A-4B19-BF24-3FC34448BB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009A8B03-3C1A-4B19-BF24-3FC34448BB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009A8B03-3C1A-4B19-BF24-3FC34448BB76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
