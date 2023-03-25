@@ -15,4 +15,19 @@
     <ProjectReference Include="..\OrderService.Telegram.Bot\OrderService.Telegram.Bot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Repositories\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
 </Project>
