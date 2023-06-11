@@ -8,7 +8,14 @@ HttpListener server = new HttpListener();
 server.Prefixes.Add("http://192.168.1.3:88/webhook/");
 server.Start();
 
-ApiClient apiClient = new ApiClient(Environment.GetEnvironmentVariable("TELEGRAM_BOT_KEY"));
+var token = Environment.GetEnvironmentVariable("TELEGRAM_BOT_KEY");
+
+if (token == null)
+{
+    throw new Exception("TELEGRAM_BOT_KEY not specified!");
+}
+
+ApiClient apiClient = new ApiClient(token);
 
 while (true)
 {
@@ -20,29 +27,41 @@ while (true)
         if (context == null || context.Request == null)
             continue;
 
-        var request = context.Request;
-
-        var json = new StreamReader(request.InputStream)?.ReadToEnd();
+        var json = new StreamReader(context.Request.InputStream)?.ReadToEnd();
 
         Console.WriteLine($"Recived update: {json}");
 
-        var update = JsonConvert.DeserializeObject<Update>(json);
+        if (json == null)
+            continue;
 
-        byte[] buffer = Encoding.UTF8.GetBytes("ok");
+        Update? update = null;
+        try
+        {
+            update = JsonConvert.DeserializeObject<Update>(json);
 
-        var response = context.Response;
-        // отправляемый в ответ код htmlвозвращает
-        response.ContentLength64 = buffer.Length;
-        // получаем поток ответа и пишем в него ответ
+            if (update == null)
+                continue;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}\n---------------------------------------");
+            continue;
+        }
+        finally
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes("ok");
+            var response = context.Response;
+            response.ContentLength64 = buffer.Length;
+            await response.OutputStream.WriteAsync(buffer);
+            await response.OutputStream.FlushAsync();
+        }
 
-        await response.OutputStream.WriteAsync(buffer);
-        await response.OutputStream.FlushAsync();
-
-        apiClient.SendMessage((int)update?.Message?.Chat?.Id, $"Hello, {update?.Message?.From?.FirstName}! Your message is: \"{update?.Message?.Text}\"");
+        apiClient.SendMessage((int)update.Message.Chat.Id, $"Hello, {update.Message.From.FirstName}! Your message is: \"{update.Message.Text}\"");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Error: {ex}");
+        Console.WriteLine($"Fatal error: {ex.Message}");
+        break;
     }
 }
 server.Stop();
