@@ -13,6 +13,6 @@ export class productsService {
     }
 
     getAll(): Observable<IProduct[]> {
-        return this.http.get<IProduct[]>('https://fakestoreapi.com/products')
+      return this.http.get<IProduct[]>('https://api.escuelajs.co/api/v1/products')
     }
 }
